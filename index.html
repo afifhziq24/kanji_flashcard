@@ -4,10 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanji Flashcard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
 </head>
 <body>
-    
+    <header>
+        <p>
+            漢字フラッシュカード
+        </p>
+    </header>
+    <main>
+        <p>Choose a deck</p>
+        <div class="deck_card">
+            <button class="kanji_deck">
+                <h2>
+                    漢字
+                </h2>
+            </button>
+            <button class="hiragana_deck">
+                <h2>ひらがな</h2>
+            </button>
+            <button class="katakana_deck">
+                <h2>カタカナ</h2>
+            </button>
+        </div>
+        <div class="daily_stat">
+            <div class="total_review">
+                <h2></h2>
+                <p>cards reviewed</p>
+            </div>
+            <div class="daily_accuracy">
+                <h2></h2>
+                <p>accuracy</p>
+            </div>
+        </div>
+    </main>
 </body>
 </html>

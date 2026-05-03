@@ -1,0 +1,83 @@
+header {
+    padding: 5px;
+    border-bottom: solid 1px #333;
+}
+
+header p {
+    font-size: 1.5em;
+    font-family: 'Hina Mincho', serif;
+    margin: 0;
+}
+
+main p {
+    font-size: 1.1em;
+    font-family: 'Lato', sans-serif;
+    color: #666;
+}
+
+.deck_card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.deck_card .kanji_deck {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #F7C1C1;
+    border-radius: 0.5em;
+    background-color: #FCEBEB;
+    color: #791F1F;
+    width: 175px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: 'Hina Mincho', serif;
+    text-align: center;
+}
+
+.deck_card .kanji_deck:hover {
+    background-color: #F7C1C1;
+}
+
+.deck_card .hiragana_deck {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #B5D4F4;
+    border-radius: 0.5em;
+    background-color: #E6F1FB;
+    color: #0C447C;
+    width: 175px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: 'Hina Mincho', serif;
+    text-align: center; 
+}
+
+.deck_card .hiragana_deck:hover {
+    background-color: #B5D4F4;
+}
+
+.deck_card .katakana_deck {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #CECBF6;
+    border-radius: 0.5em;
+    background-color: #EEEDFE;
+    color: #3C3489;
+    width: 175px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: 'Hina Mincho', serif;
+    text-align: center;
+}
+
+.deck_card .katakana_deck:hover {
+    background-color: #CECBF6;
+}
