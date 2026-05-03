@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kanji Flashcard</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
     </style>
@@ -44,9 +44,12 @@
         <div class="modal_overlay">
             <div class="front_card">
                 <p>Front Card Content</p>
+                <button class="esc_btn">X</button>
+                <button class="hint_btn">Show Hint</button>
             </div>
             <div class="back_card">
                 <p>Back Card Content</p>
+                <button class="esc_btn">X</button>
             </div>
         </div>
     </main>
