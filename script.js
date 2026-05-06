@@ -62,6 +62,9 @@ const saved = localStorage.getItem("currentIndex");
 let currentIndex = saved !== null ? JSON.parse(saved) : 0;
 let currentActiveDeck = [];
 
+let correct = 0;
+let incorrect = 0;
+
 function showCard(deck) {
     const word = deck[currentIndex];
     charFront.textContent = word;
@@ -106,18 +109,21 @@ kanji_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentActiveDeck = kanjiDeck;
     showCard(currentActiveDeck);
+    updateProgress();
 });
 
 hiragana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentActiveDeck = hiraganaDeck;
     showCard(currentActiveDeck);
+    updateProgress();
 });
 
 katakana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentActiveDeck = katakanaDeck;
     showCard(currentActiveDeck);
+    updateProgress();
 });
 
 hintBtn.addEventListener("click", function() {
@@ -133,9 +139,11 @@ hardBtn.addEventListener("click", function() {
     if (document.getElementById("card_inner").classList.contains("flipped")) {
         removeFlip();
     };
+    incorrect = incorrect + 1;
     currentIndex = (currentIndex + 1) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);
+    updateProgress();
 });
 
 goodBtn.addEventListener("click", function() {
@@ -143,9 +151,11 @@ goodBtn.addEventListener("click", function() {
     if (document.getElementById("card_inner").classList.contains("flipped")) {
         removeFlip();
     };
+    correct = correct + 1;
     currentIndex = (currentIndex + 1) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);
+    updateProgress();
 });
 
 prevBtn.addEventListener("click", function() {
@@ -156,4 +166,20 @@ prevBtn.addEventListener("click", function() {
     currentIndex = (currentIndex - 1 + currentActiveDeck.length) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);
+    updateProgress();
 })
+
+function updateProgress() {
+    const total = currentActiveDeck.length;
+    const current = currentIndex + 1;
+    const label = document.getElementById("label");
+    const progressFill = document.getElementById("progress_fill");
+
+    if (total > 0) {
+        const percent = (current / total) * 100;
+        label.textContent = current + "/" + total;
+        progressFill.style.width = percent + "%";
+    }
+}
+
+updateProgress();

@@ -23,12 +23,33 @@
                 <h2>
                     漢字
                 </h2>
+                <p>N5 Kanji</p>
+                <div class="progress">
+                    <div class="progress_track">
+                        <div class="progress_fill" id="progress_fill_kanji"></div>
+                    </div>
+                    <div id="label_kanji">0/80</div>
+                </div>
             </button>
             <button class="hiragana_deck">
                 <h2>ひらがな</h2>
+                <p>Hiragana</p>
+                <div class="progress">
+                    <div class="progress_track">
+                        <div class="progress_fill" id="progress_fill_hiragana"></div>
+                    </div>
+                    <div id="label_hiragana">0/46</div>
+                </div>
             </button>
             <button class="katakana_deck">
                 <h2>カタカナ</h2>
+                <p>Katakana</p>
+                <div class="progress">
+                    <div class="progress_track">
+                        <div class="progress_fill" id="progress_fill_katakana"></div>
+                    </div>
+                    <div id="label_katakana">0/46</div>
+                </div>
             </button>
         </div>
         <div class="daily_stat">
@@ -43,6 +64,12 @@
         </div>
         <div class="card_container">
             <button class="button esc_btn">X</button>
+            <div class="progress">
+                <div class="progress_track">
+                    <div class="progress_fill" id="progress_fill"></div>
+                </div>
+                <div id="label">0/80</div>
+            </div>
             <div class="card_inner" id="card_inner">
                 <div class="card front_card">
                     <button class="button hint_btn">Show Hint</button>

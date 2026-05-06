@@ -191,3 +191,25 @@ p { margin: 0; }
     flex: 1;
     gap: 5px;
 }
+
+.progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: rowS;
+}
+
+.progress_track {
+    width: 260px;
+    height: 8px;
+    background-color: #f0f4f8;
+    border-radius: 99px;
+}
+
+.progress_fill {
+    width: 0%;
+    height: 100%;
+    background-color: lightseagreen;
+    border-radius: 99px;
+    transition: width 0.3s ease;
+}
