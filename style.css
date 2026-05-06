@@ -93,6 +93,7 @@ main p {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(8px);
+    flex-direction: column;
 }
 
 .card {
@@ -174,4 +175,9 @@ p { margin: 0; }
     cursor: pointer;
     font-family: inherit;
     font-weight: 600;
+}
+
+.ans_btn {
+    flex: 1;
+    gap: 5px;
 }

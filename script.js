@@ -49,6 +49,10 @@ const escBtn = document.querySelector(".esc_btn");
 const front = document.querySelector(".front_card");
 const back = document.querySelector(".back_card");
 
+const prevBtn = document.getElementById("prev_btn");
+const hardBtn = document.getElementById("hard_btn");
+const goodBtn = document.getElementById("good_btn");
+
 //variable for deck
 const kanji_deck = document.querySelector(".kanji_deck");
 const hiragana_deck = document.querySelector(".hiragana_deck");
@@ -60,7 +64,7 @@ let currentActiveDeck = [];
 
 function showCard(deck) {
     const word = deck[currentIndex];
-    charFront.textContent = word[currentIndex];
+    charFront.textContent = word;
 };
 
 async function showHint(deck) {
@@ -72,7 +76,7 @@ async function showHint(deck) {
         const response = await fetch('https://kanjiapi.dev/v1/kanji/' + word);
         const data = await response.json();
 
-        charBack.textContent = word[currentIndex];
+        charBack.textContent = word;
         meaning.textContent = data.meanings.join(", ");
         reading.textContent = data.kun_readings.join(", ");
     } catch (error) {
@@ -105,4 +109,31 @@ hintBtn.addEventListener("click", function() {
 
 escBtn.addEventListener("click", function() {
     container.style.display = "none";
+});
+
+hardBtn.addEventListener("click", function() {
+    hintBtn.style.display = "flex";
+    front.style.display = "flex";
+    back.style.display = "none";
+    currentIndex = (currentIndex + 1) % currentActiveDeck.length;
+    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+    showCard(currentActiveDeck);
+});
+
+goodBtn.addEventListener("click", function() {
+    hintBtn.style.display = "flex";
+    front.style.display = "flex";
+    back.style.display = "none";
+    currentIndex = (currentIndex + 1) % currentActiveDeck.length;
+    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+    showCard(currentActiveDeck);
+});
+
+prevBtn.addEventListener("click", function() {
+    hintBtn.style.display = "flex";
+    front.style.display = "flex";
+    back.style.display = "none";
+    currentIndex = (currentIndex - 1 + currentActiveDeck.length) % currentActiveDeck.length;
+    localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
+    showCard(currentActiveDeck);
 })
