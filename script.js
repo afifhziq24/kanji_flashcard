@@ -38,7 +38,7 @@ let katakanaDeck = [
 ];
 
 //variable for card
-const container = document.querySelector(".modal_overlay");
+const container = document.querySelector(".card_container");
 const charFront = document.getElementById("word_display_front");
 const charBack = document.getElementById("word_display_back");
 const meaning = document.getElementById("meaning_display");
@@ -67,11 +67,28 @@ function showCard(deck) {
     charFront.textContent = word;
 };
 
+function cardFlip() {
+    document.getElementById("card_inner").classList.toggle("flipped");
+}
+
+function removeFlip() {
+    document.getElementById("card_inner").classList.remove("flipped");
+}
+
 async function showHint(deck) {
-    front.style.display = "none";
-    back.style.display = "flex";
     hintBtn.style.display = "none";
+    cardFlip();
     const word = deck[currentIndex];
+    // Show loading state
+    charBack.textContent = "";
+    meaning.textContent = "Loading...";
+    reading.textContent = "";
+
+    if (deck !== kanjiDeck) {
+        charBack.textContent = word;
+        meaning.textContent = "phonetic symbol";
+        reading.textContent = "N/A";
+    }
     try {
         const response = await fetch('https://kanjiapi.dev/v1/kanji/' + word);
         const data = await response.json();
@@ -113,8 +130,9 @@ escBtn.addEventListener("click", function() {
 
 hardBtn.addEventListener("click", function() {
     hintBtn.style.display = "flex";
-    front.style.display = "flex";
-    back.style.display = "none";
+    if (document.getElementById("card_inner").classList.contains("flipped")) {
+        removeFlip();
+    };
     currentIndex = (currentIndex + 1) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);
@@ -122,8 +140,9 @@ hardBtn.addEventListener("click", function() {
 
 goodBtn.addEventListener("click", function() {
     hintBtn.style.display = "flex";
-    front.style.display = "flex";
-    back.style.display = "none";
+    if (document.getElementById("card_inner").classList.contains("flipped")) {
+        removeFlip();
+    };
     currentIndex = (currentIndex + 1) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);
@@ -131,8 +150,9 @@ goodBtn.addEventListener("click", function() {
 
 prevBtn.addEventListener("click", function() {
     hintBtn.style.display = "flex";
-    front.style.display = "flex";
-    back.style.display = "none";
+    if (document.getElementById("card_inner").classList.contains("flipped")) {
+        removeFlip();
+    };
     currentIndex = (currentIndex - 1 + currentActiveDeck.length) % currentActiveDeck.length;
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     showCard(currentActiveDeck);

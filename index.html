@@ -41,19 +41,22 @@
                 <p>accuracy</p>
             </div>
         </div>
-        <div class="modal_overlay">
+        <div class="card_container">
             <button class="button esc_btn">X</button>
-            <div class="card front_card">
-                <button class="button hint_btn">Show Hint</button>
-                <div>
-                    <p class="word" id="word_display_front">...</p>
+            <div class="card_inner" id="card_inner">
+                <div class="card front_card">
+                    <button class="button hint_btn">Show Hint</button>
+                    <div>
+                        <p class="word" id="word_display_front">...</p>
+                    </div>
+                </div>
+                <div class="card back_card">
+                    <p class="word" id="word_display_back">...</p>
+                    <p class="meaning" id="meaning_display"></p>
+                    <p class="reading" id="reading_display"></p>
                 </div>
             </div>
-            <div class="card back_card">
-                <p class="word" id="word_display_back">...</p>
-                <p class="meaning" id="meaning_display"></p>
-                <p class="reading" id="reading_display"></p>
-            </div>
+            
             <div class="btn">
                 <button class="button ans_btn" id="prev_btn">previous</button>
                 <button class="button ans_btn" id="hard_btn">hard</button>
