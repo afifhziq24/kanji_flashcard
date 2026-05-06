@@ -42,14 +42,17 @@
             </div>
         </div>
         <div class="modal_overlay">
-            <div class="front_card">
-                <p></p>
-                <button class="esc_btn">X</button>
-                <button class="hint_btn">Show Hint</button>
+            <button class="button esc_btn">X</button>
+            <div class="card front_card">
+                <button class="button hint_btn">Show Hint</button>
+                <div>
+                    <p class="word" id="word_display_front">...</p>
+                </div>
             </div>
-            <div class="back_card">
-                <p>Back Card Content</p>
-                <button class="esc_btn">X</button>
+            <div class="card back_card">
+                <p class="word" id="word_display_back">...</p>
+                <p class="meaning" id="meaning_display"></p>
+                <p class="reading" id="reading_display"></p>
             </div>
         </div>
     </main>
