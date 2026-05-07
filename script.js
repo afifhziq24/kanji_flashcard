@@ -56,20 +56,23 @@ let progress = {
     hiragana: 0,
     katakana: 0
 }
+let savedData = localStorage.getItem("progress");
+let loadedProgress = JSON.parse(savedData) || {kanji: 0, hiragana: 0, katakana: 0};
+
+let correct = JSON.parse(localStorage.getItem("correct")) || 0;
+let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
 
 let currentIndex = localStorage.getItem("currentIndex") !== null ? JSON.parse(localStorage.getItem("currentIndex")) : 0;
 let currentActiveDeck = [];
-let correct = 0;
-let incorrect = 0;
 let score = 0;
 const cache = {};
-
 
 // ====================================
 // DOM ELEMENTS: Card Display
 // ====================================
 
 const container = document.querySelector(".card_container");
+const summary = document.querySelector(".summary");
 const charFront = document.getElementById("word_display_front");
 const charBack = document.getElementById("word_display_back");
 const meaning = document.getElementById("meaning_display");
@@ -158,12 +161,15 @@ async function showHint(deck) {
         charBack.textContent = word;
         meaning.textContent = "phonetic symbol";
         reading.textContent = "N/A";
+        return;
     }
     try {
         if (cache[word]) {
             charBack.textContent = word;
             meaning.textContent = cache[word].meanings.join(", ");
             reading.textContent = cache[word].kun_readings.join(", ");
+
+            return;
         }
         const response = await fetch('https://kanjiapi.dev/v1/kanji/' + word);
         const data = await response.json();
@@ -185,24 +191,16 @@ async function showHint(deck) {
 function updateBtn(step) {
     currentIndex = (currentIndex + step);
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
-    if (currentDeckType == "kanji") {
-        progress.kanji = currentIndex;
-        localStorage.setItem("progress", JSON.stringify(progress.kanji));
-    } else if (currentDeckType == "hiragana") {
-        progress.hiragana = currentIndex;
-        localStorage.setItem("progress", JSON.stringify(progress.hiragana));
-    } else if (currentDeckType == "katakana") {
-        progress.katakana = currentIndex;
-        localStorage.setItem("progress", JSON.stringify(progress.katakana));
+    if (currentDeckType) {
+        loadedProgress[currentDeckType] = currentIndex;
+    localStorage.setItem("progress", JSON.stringify(loadedProgress));
     }
 
     if (currentIndex == currentActiveDeck.length) {
-        score = ((incorrect * -1) + (correct * 1))/currentActiveDeck.length * 100;
+        score = Math.round(correct / currentActiveDeck.length * 100);
         container.style.display = "none";
-        currentIndex = 0;
-        incorrect = 0;
-        correct = 0;
-        localStorage.setItem("progress", JSON.stringify(progress));
+        
+        localStorage.setItem("progress", JSON.stringify(loadedProgress));
         localStorage.setItem("score", JSON.stringify(score));
         displaySummary();
     }
@@ -223,16 +221,18 @@ function updateProgress() {
     const total = currentActiveDeck.length;
     const current = currentIndex + 1;
 
+    labelKanji.textContent = loadedProgress.kanji + "/" + kanjiDeck.length;
+    labelHiragana.textContent = loadedProgress.hiragana + "/" + hiraganaDeck.length;
+    labelKatakana.textContent = loadedProgress.katakana + "/" + katakanaDeck.length;
+
+    progressFillKanji.style.width = ((loadedProgress.kanji/kanjiDeck.length) * 100) + "%";
+    progressFillHiragana.style.width = ((loadedProgress.hiragana/hiraganaDeck.length) * 100) + "%";
+    progressFillKatakana.style.width = ((loadedProgress.katakana/katakanaDeck.length) * 100) + "%";
+
     if (total > 0) {
         const percent = (current / total) * 100;
         label.textContent = current + "/" + total;
         progressFill.style.width = percent + "%";
-        labelKanji.textContent = current + "/" + kanjiDeck.length
-        labelHiragana.textContent = current + "/" + hiraganaDeck.length
-        labelKatakana.textContent = current + "/" + katakanaDeck.length
-        progressFillKanji.style.width = ((progress.kanji/kanjiDeck.length) * 100) + "%";
-        progressFillHiragana.style.width = ((progress.hiragana/hiraganaDeck.length) * 100) + "%";
-        progressFillKatakana.style.width = ((progress.katakana/katakanaDeck.length) * 100) + "%";
     }
 }
 
@@ -244,7 +244,7 @@ kanji_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "kanji";
     currentActiveDeck = kanjiDeck;
-    currentIndex = progress.kanji;
+    currentIndex = loadedProgress.kanji;
     if (currentIndex == 0) {
         currentActiveDeck = shuffleDeck([...kanjiDeck]);
     }
@@ -256,7 +256,7 @@ hiragana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "hiragana";
     currentActiveDeck = hiraganaDeck;
-    currentIndex = progress.hiragana;
+    currentIndex = loadedProgress.hiragana;
     if (currentIndex == 0) {
         currentActiveDeck = shuffleDeck([...hiraganaDeck]);
     }
@@ -268,7 +268,7 @@ katakana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "katakana";
     currentActiveDeck = katakanaDeck;
-    currentIndex = progress.katakana;
+    currentIndex = loadedProgress.katakana;
     if (currentIndex == 0) {
         currentActiveDeck = shuffleDeck([...katakanaDeck]);
     }
@@ -284,8 +284,26 @@ hintBtn.addEventListener("click", function() {
     showHint(currentActiveDeck);
 });
 
-escBtn.addEventListener("click", function() {
-    container.style.display = "none";
+document.querySelectorAll(".esc_btn").forEach(btn=> { 
+    btn.addEventListener("click", function() {
+        if (currentActiveDeck.length > 0 && currentIndex === currentActiveDeck.length) {
+            loadedProgress[currentDeckType] = 0;
+            localStorage.setItem("progress", JSON.stringify(loadedProgress));
+
+            incorrect = 0;
+            correct = 0;
+            localStorage.setItem("incorrect", JSON.stringify(incorrect));
+            localStorage.setItem("correct", JSON.stringify(correct));
+            currentDeckType = "";
+            currentActiveDeck = [];
+
+            currentIndex = 0;
+            localStorage.setItem("currentIndex", JSON.stringify(0));
+            updateProgress();
+        }
+        container.style.display = "none";
+        document.querySelector(".summary").style.display ="none";
+    });
 });
 
 // ====================================
@@ -294,11 +312,13 @@ escBtn.addEventListener("click", function() {
 
 hardBtn.addEventListener("click", function() {
     incorrect = incorrect + 1;
+    localStorage.setItem("incorrect", JSON.stringify(incorrect));
     updateBtn(1);
 });
 
 goodBtn.addEventListener("click", function() {
     correct = correct + 1;
+    localStorage.setItem("correct", JSON.stringify(correct));
     updateBtn(1);
 });
 
