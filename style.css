@@ -82,19 +82,23 @@ main p {
     background-color: #CECBF6;
 }
 
-.card_container {
-    perspective: 1000px;
+
+
+.container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.1);
-    display: none;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(8px);
     flex-direction: column;
+}
+.card_container {
+    perspective: 1000px;
+    display: none;
 }
 
 .card_inner {
@@ -212,4 +216,19 @@ p { margin: 0; }
     background-color: lightseagreen;
     border-radius: 99px;
     transition: width 0.3s ease;
+}
+
+.summary {
+    width: 260px;
+    height: 200px;
+    position: relative;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    border-radius: 12px;
+    background-color: white;
+    padding: 24px;
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
