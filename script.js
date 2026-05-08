@@ -26,29 +26,29 @@ let kanjiDeck = [
 ];
 
 let hiraganaDeck = [
-    "あ", "い", "う", "え", "お",  
-    "か", "き", "く", "け", "こ",  
-    "さ", "し", "す", "せ", "そ",  
-    "た", "ち", "つ", "て", "と",  
-    "な", "に", "ぬ", "ね", "の",
-    "は", "ひ", "ふ", "へ", "ほ",
-    "ま", "み", "む", "め", "も",
-    "や",       "ゆ",       "よ",
-    "ら", "り", "る", "れ", "ろ",
-    "わ",       "を",       "ん"  
+    { char: "あ", reading: "a" }, { char: "い", reading: "i" }, { char: "う", reading: "u" }, { char: "え", reading: "e" }, { char: "お", reading: "o" },
+    { char: "か", reading: "ka" }, { char: "き", reading: "ki" }, { char: "く", reading: "ku" }, { char: "け", reading: "ke" }, { char: "こ", reading: "ko" },
+    { char: "さ", reading: "sa" }, { char: "し", reading: "shi" }, { char: "す", reading: "su" }, { char: "せ", reading: "se" }, { char: "そ", reading: "so" },
+    { char: "た", reading: "ta" }, { char: "ち", reading: "chi" }, { char: "つ", reading: "tsu" }, { char: "て", reading: "te" }, { char: "と", reading: "to" },
+    { char: "な", reading: "na" }, { char: "に", reading: "ni" }, { char: "ぬ", reading: "nu" }, { char: "ね", reading: "ne" }, { char: "の", reading: "no" },
+    { char: "は", reading: "ha" }, { char: "ひ", reading: "hi" }, { char: "ふ", reading: "fu" }, { char: "へ", reading: "he" }, { char: "ほ", reading: "ho" },
+    { char: "ま", reading: "ma" }, { char: "み", reading: "mi" }, { char: "む", reading: "mu" }, { char: "め", reading: "me" }, { char: "も", reading: "mo" },
+    { char: "や", reading: "ya" }, { char: "ゆ", reading: "yu" }, { char: "よ", reading: "yo" },
+    { char: "ら", reading: "ra" }, { char: "り", reading: "ri" }, { char: "る", reading: "ru" }, { char: "れ", reading: "re" }, { char: "ろ", reading: "ro" },
+    { char: "わ", reading: "wa" }, { char: "を", reading: "wo" }, { char: "ん", reading: "n" }
 ];
 
 let katakanaDeck = [
-    "ア", "イ", "ウ", "エ", "オ",  
-    "カ", "キ", "ク", "ケ", "コ",  
-    "サ", "シ", "ス", "セ", "ソ",  
-    "タ", "チ", "ツ", "テ", "ト",  
-    "ナ", "ニ", "ヌ", "ネ", "ノ",
-    "ハ", "ヒ", "フ", "ヘ", "ホ",
-    "マ", "ミ", "ム", "メ", "モ",
-    "ヤ",       "ユ",       "ヨ",
-    "ラ", "リ", "ル", "レ", "ロ",
-    "ワ",       "ヲ",       "ン"   
+    { char: "ア", reading: "a" }, { char: "イ", reading: "i" }, { char: "ウ", reading: "u" }, { char: "エ", reading: "e" }, { char: "オ", reading: "o" },
+    { char: "カ", reading: "ka" }, { char: "キ", reading: "ki" }, { char: "ク", reading: "ku" }, { char: "ケ", reading: "ke" }, { char: "コ", reading: "ko" },
+    { char: "サ", reading: "sa" }, { char: "シ", reading: "shi" }, { char: "ス", reading: "su" }, { char: "セ", reading: "se" }, { char: "ソ", reading: "so" },
+    { char: "タ", reading: "ta" }, { char: "チ", reading: "chi" }, { char: "ツ", reading: "tsu" }, { char: "テ", reading: "te" }, { char: "ト", reading: "to" },
+    { char: "ナ", reading: "na" }, { char: "ニ", reading: "ni" }, { char: "ヌ", reading: "nu" }, { char: "ネ", reading: "ne" }, { char: "ノ", reading: "no" },
+    { char: "ハ", reading: "ha" }, { char: "ヒ", reading: "hi" }, { char: "フ", reading: "fu" }, { char: "ヘ", reading: "he" }, { char: "ホ", reading: "ho" },
+    { char: "マ", reading: "ma" }, { char: "ミ", reading: "mi" }, { char: "ム", reading: "mu" }, { char: "メ", reading: "me" }, { char: "モ", reading: "mo" },
+    { char: "ヤ", reading: "ya" }, { char: "ユ", reading: "yu" }, { char: "ヨ", reading: "yo" },
+    { char: "ラ", reading: "ra" }, { char: "リ", reading: "ri" }, { char: "ル", reading: "ru" }, { char: "レ", reading: "re" }, { char: "ロ", reading: "ro" },
+    { char: "ワ", reading: "wa" }, { char: "ヲ", reading: "wo" }, { char: "ン", reading: "n" }
 ];
 
 let progress = {
@@ -58,6 +58,22 @@ let progress = {
 }
 let savedData = localStorage.getItem("progress");
 let loadedProgress = JSON.parse(savedData) || {kanji: 0, hiragana: 0, katakana: 0};
+
+try {
+    const parsed = JSON.parse(savedData);
+    if (parsed && typeof parsed === 'object' && 'kanji' in parsed) {
+        loadedProgress = parsed;
+    } else {
+        throw new Error("invalid structure");
+    }
+}catch(e) {
+    loadedProgress = {
+        kanji: 0,
+        hiragana: 0,
+        katakana: 0
+    }
+    localStorage.setItem("progress", JSON.stringify(loadedProgress));
+}
 
 let correct = JSON.parse(localStorage.getItem("correct")) || 0;
 let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
@@ -78,9 +94,7 @@ const charBack = document.getElementById("word_display_back");
 const meaning = document.getElementById("meaning_display");
 const reading = document.getElementById("reading_display");
 const hintBtn = document.querySelector(".hint_btn");
-const escBtn = document.querySelector(".esc_btn");
-const front = document.querySelector(".front_card");
-const back = document.querySelector(".back_card");
+const escBtn = document.querySelectorAll(".esc_btn");
 
 // ====================================
 // DOM ELEMENTS: Buttons
@@ -132,7 +146,7 @@ function shuffleDeck(deck) {
 
 function showCard(deck) {
     const word = deck[currentIndex];
-    charFront.textContent = word;
+    charFront.textContent = typeof word === 'object' ? word.char : word;
 }
 
 function cardFlip() {
@@ -157,27 +171,35 @@ async function showHint(deck) {
     meaning.textContent = "Loading...";
     reading.textContent = "";
 
-    if (deck !== kanjiDeck) {
-        charBack.textContent = word;
-        meaning.textContent = "phonetic symbol";
-        reading.textContent = "N/A";
+    if (currentDeckType === "hiragana") {
+        charBack.textContent = word.char;
+        meaning.textContent = word.reading;
+        reading.textContent = "";
+        return;
+    } else if (currentDeckType === "katakana") {
+        charBack.textContent = word.char;
+        meaning.textContent = word.reading;
+        reading.textContent = "";
         return;
     }
     try {
         if (cache[word]) {
             charBack.textContent = word;
-            meaning.textContent = cache[word].meanings.join(", ");
-            reading.textContent = cache[word].kun_readings.join(", ");
+            meaning.textContent = cache[word].meanings.join(", ") ?? "No meaning found";
+            reading.textContent = cache[word].kun_readings.join(", ") ?? "";
 
             return;
         }
         const response = await fetch('https://kanjiapi.dev/v1/kanji/' + word);
+        if (!response.ok) {
+            throw new Error("API returned status: " + response.status)
+        }
         const data = await response.json();
         cache[word] = data;
 
         charBack.textContent = word;
-        meaning.textContent = data.meanings.join(", ");
-        reading.textContent = data.kun_readings.join(", ");
+        meaning.textContent = data.meanings.join(", ") ?? "No meaning found";
+        reading.textContent = data.kun_readings.join(", ") ?? "";
     } catch (error) {
        document.getElementById("word_display_back").textContent = "Error loading card";
             console.log(error);
@@ -189,7 +211,7 @@ async function showHint(deck) {
 // ====================================
 
 function updateBtn(step) {
-    currentIndex = (currentIndex + step);
+    currentIndex = Math.max(0, Math.min(currentIndex + step, currentActiveDeck.length));
     localStorage.setItem("currentIndex", JSON.stringify(currentIndex));
     if (currentDeckType) {
         loadedProgress[currentDeckType] = currentIndex;
@@ -197,12 +219,17 @@ function updateBtn(step) {
     }
 
     if (currentIndex == currentActiveDeck.length) {
-        score = Math.round(correct / currentActiveDeck.length * 100);
+        if (correct === 0 || currentActiveDeck.length === 0) {
+            score = 0;
+        } else {
+            score = Math.round(correct / currentActiveDeck.length * 100);
+        }
         container.style.display = "none";
         
         localStorage.setItem("progress", JSON.stringify(loadedProgress));
         localStorage.setItem("score", JSON.stringify(score));
         displaySummary();
+        return;
     }
 
     removeFlip();
@@ -229,6 +256,10 @@ function updateProgress() {
     progressFillHiragana.style.width = ((loadedProgress.hiragana/hiraganaDeck.length) * 100) + "%";
     progressFillKatakana.style.width = ((loadedProgress.katakana/katakanaDeck.length) * 100) + "%";
 
+    const scoreAcc = document.querySelector(".score_acc");
+    let dailyAcc = Math.round(correct/(correct+incorrect) * 100) || 0;
+    scoreAcc.textContent = dailyAcc + "%";
+
     if (total > 0) {
         const percent = (current / total) * 100;
         label.textContent = current + "/" + total;
@@ -243,11 +274,15 @@ function updateProgress() {
 kanji_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "kanji";
-    currentActiveDeck = kanjiDeck;
-    currentIndex = loadedProgress.kanji;
-    if (currentIndex == 0) {
+
+    let savedShuffled = localStorage.getItem("shuffled_kanji");
+    if (savedShuffled) {
+        currentActiveDeck = JSON.parse(savedShuffled);
+    } else {
         currentActiveDeck = shuffleDeck([...kanjiDeck]);
+        localStorage.setItem("shuffled_kanji", JSON.stringify(currentActiveDeck));
     }
+    currentIndex = loadedProgress.kanji;
     showCard(currentActiveDeck);
     updateProgress();
 });
@@ -255,11 +290,15 @@ kanji_deck.addEventListener("click", function() {
 hiragana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "hiragana";
-    currentActiveDeck = hiraganaDeck;
-    currentIndex = loadedProgress.hiragana;
-    if (currentIndex == 0) {
+
+    let savedShuffled = localStorage.getItem("shuffled_hiragana");
+    if (savedShuffled) {
+        currentActiveDeck = JSON.parse(savedShuffled);
+    } else {
         currentActiveDeck = shuffleDeck([...hiraganaDeck]);
+        localStorage.setItem("shuffled_hiragana", JSON.stringify(currentActiveDeck));
     }
+    currentIndex = loadedProgress.hiragana;
     showCard(currentActiveDeck);
     updateProgress();
 });
@@ -267,11 +306,15 @@ hiragana_deck.addEventListener("click", function() {
 katakana_deck.addEventListener("click", function() {
     container.style.display = "flex";
     currentDeckType = "katakana";
-    currentActiveDeck = katakanaDeck;
-    currentIndex = loadedProgress.katakana;
-    if (currentIndex == 0) {
+
+    let savedShuffled = localStorage.getItem("shuffled_katakana");
+    if (savedShuffled) {
+        currentActiveDeck = JSON.parse(savedShuffled);
+    } else {
         currentActiveDeck = shuffleDeck([...katakanaDeck]);
+        localStorage.setItem("shuffled_katakana", JSON.stringify(currentActiveDeck));
     }
+    currentIndex = loadedProgress.katakana;
     showCard(currentActiveDeck);
     updateProgress();
 });
@@ -284,7 +327,7 @@ hintBtn.addEventListener("click", function() {
     showHint(currentActiveDeck);
 });
 
-document.querySelectorAll(".esc_btn").forEach(btn=> { 
+escBtn.forEach(btn=> { 
     btn.addEventListener("click", function() {
         if (currentActiveDeck.length > 0 && currentIndex === currentActiveDeck.length) {
             loadedProgress[currentDeckType] = 0;
@@ -299,6 +342,9 @@ document.querySelectorAll(".esc_btn").forEach(btn=> {
 
             currentIndex = 0;
             localStorage.setItem("currentIndex", JSON.stringify(0));
+            localStorage.removeItem("shuffled_kanji");
+            localStorage.removeItem("shuffled_hiragana");
+            localStorage.removeItem("shuffled_katakana");
             updateProgress();
         }
         container.style.display = "none";
