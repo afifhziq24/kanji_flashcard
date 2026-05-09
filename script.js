@@ -51,13 +51,48 @@ let katakanaDeck = [
     { char: "ワ", reading: "wa" }, { char: "ヲ", reading: "wo" }, { char: "ン", reading: "n" }
 ];
 
+// ====================================
+// STATS: session & persisted counters
+// ====================================
+
+let streak = Number(localStorage.getItem("streak")) || 0;
+let correct = JSON.parse(localStorage.getItem("correct")) || 0;
+let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
+let dailyCorrect = JSON.parse(localStorage.getItem("dailyCorrect")) || 0;
+let dailyIncorrect = JSON.parse(localStorage.getItem("dailyIncorrect")) || 0;
+
+const today = new Date();
+const dateString = today.toISOString().split("T")[0];
+const lastActive = localStorage.getItem("lastActiveDate");
+
+const yesterday = new Date();
+yesterday.setDate(yesterday.getDate() - 1);
+const yesterdayString = yesterday.toISOString().split("T")[0];
+
+if (lastActive === dateString) {
+    // same day — keep daily counters
+} else if (lastActive === yesterdayString) {
+    // new day after yesterday — reset daily counters and bump streak
+    dailyCorrect = 0;
+    dailyIncorrect = 0;
+    streak++;
+} else {
+    // gap of more than one day — reset streak and daily counters
+    streak = 0;
+    dailyCorrect = 0;
+    dailyIncorrect = 0;
+}
+
+localStorage.setItem("lastActiveDate", dateString);
+localStorage.setItem("streak", streak);
+
 let progress = {
     kanji: 0,
     hiragana: 0,
     katakana: 0
 }
 let savedData = localStorage.getItem("progress");
-let loadedProgress = JSON.parse(savedData) || {kanji: 0, hiragana: 0, katakana: 0};
+let loadedProgress;
 
 try {
     const parsed = JSON.parse(savedData);
@@ -74,10 +109,6 @@ try {
     }
     localStorage.setItem("progress", JSON.stringify(loadedProgress));
 }
-
-let correct = JSON.parse(localStorage.getItem("correct")) || 0;
-let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
-
 let currentIndex = localStorage.getItem("currentIndex") !== null ? JSON.parse(localStorage.getItem("currentIndex")) : 0;
 let currentActiveDeck = [];
 let score = 0;
@@ -257,7 +288,7 @@ function updateProgress() {
     progressFillKatakana.style.width = ((loadedProgress.katakana/katakanaDeck.length) * 100) + "%";
 
     const scoreAcc = document.querySelector(".score_acc");
-    let dailyAcc = Math.round(correct/(correct+incorrect) * 100) || 0;
+    let dailyAcc = Math.round(dailyCorrect/(dailyCorrect+dailyIncorrect) * 100) || 0;
     scoreAcc.textContent = dailyAcc + "%";
 
     if (total > 0) {
@@ -358,12 +389,16 @@ escBtn.forEach(btn=> {
 
 hardBtn.addEventListener("click", function() {
     incorrect = incorrect + 1;
+    dailyIncorrect++;
+    localStorage.setItem("dailyIncorrect", JSON.stringify(dailyIncorrect));
     localStorage.setItem("incorrect", JSON.stringify(incorrect));
     updateBtn(1);
 });
 
 goodBtn.addEventListener("click", function() {
     correct = correct + 1;
+    dailyCorrect++;
+    localStorage.setItem("dailyCorrect", JSON.stringify(dailyCorrect));
     localStorage.setItem("correct", JSON.stringify(correct));
     updateBtn(1);
 });

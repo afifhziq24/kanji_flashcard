@@ -1,12 +1,47 @@
+:root{
+  --bg: #f6f8fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --accent: #4f46e5;
+  --accent-2: #06b6d4;
+  --good: #10b981;
+  --bad: #ef4444;
+  --shadow: rgba(15,23,42,0.08);
+  --radius: 14px;
+  --max-width: 980px;
+}
+
+*{box-sizing:border-box}
+
+html,body{height:100%}
+
+body{
+  margin:0;
+  font-family: 'Lato', 'Roboto', sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  background:var(--bg);
+  color:#0f172a;
+  display:flex;
+  flex-direction: column;
+}
+
+/* Page container */
+main{
+  width:100%;
+}
+
 header {
-    padding: 5px;
+    padding: 10px 10px 0 10px;
     border-bottom: solid 1px #333;
 }
 
 header p {
-    font-size: 1.5em;
+    margin: 0 0 18px 0;
+    font-size: 20px;
+    font-weight: 700;
     font-family: 'Hina Mincho', serif;
-    margin: 0;
+    letter-spacing: 0.2px;
 }
 
 main p {
@@ -15,72 +50,31 @@ main p {
     color: #666;
 }
 
-.deck_card {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+.deck_card{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:18px;
+  justify-content: center;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
+.deck_card button{
+  background:linear-gradient(180deg,#fff,#fbfbff);
+  border:1px solid rgba(15,23,42,0.04);
+  padding:18px;
+  border-radius:12px;
+  text-align:left;
+  box-shadow:0 6px 18px var(--shadow);
+  cursor:pointer;
+  transition:transform .14s ease, box-shadow .14s ease;
+  min-height:110px;
+}
+.deck_card button:hover{ transform:translateY(-4px); box-shadow:0 12px 30px var(--shadow) }
+.deck_card h2{ margin:0 0 6px 0; font-size:18px }
+.deck_card p{ margin:0; color:var(--muted); font-size:13px }
 
-.deck_card .kanji_deck {
-    display: flex;
-    flex-direction: column;
-    border: solid 1px #F7C1C1;
-    border-radius: 0.5em;
-    background-color: #FCEBEB;
-    color: #791F1F;
-    width: 175px;
-    height: 200px;
-    margin-top: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-family: 'Hina Mincho', serif;
-    text-align: center;
-}
-
-.deck_card .kanji_deck:hover {
-    background-color: #F7C1C1;
-}
-
-.deck_card .hiragana_deck {
-    display: flex;
-    flex-direction: column;
-    border: solid 1px #B5D4F4;
-    border-radius: 0.5em;
-    background-color: #E6F1FB;
-    color: #0C447C;
-    width: 175px;
-    height: 200px;
-    margin-top: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-family: 'Hina Mincho', serif;
-    text-align: center; 
-}
-
-.deck_card .hiragana_deck:hover {
-    background-color: #B5D4F4;
-}
-
-.deck_card .katakana_deck {
-    display: flex;
-    flex-direction: column;
-    border: solid 1px #CECBF6;
-    border-radius: 0.5em;
-    background-color: #EEEDFE;
-    color: #3C3489;
-    width: 175px;
-    height: 200px;
-    margin-top: 20px;
-    margin-left: 5px;
-    margin-right: 5px;
-    font-family: 'Hina Mincho', serif;
-    text-align: center;
-}
-
-.deck_card .katakana_deck:hover {
-    background-color: #CECBF6;
-}
 
 
 
@@ -99,11 +93,13 @@ main p {
 .card_container {
     perspective: 1000px;
     display: none;
+    gap: 14px;
+    padding: 18px;
 }
 
 .card_inner {
-    width: 260px;
-    height: 200px;
+    width: 360px;
+    height: 220px;
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.5s ease;
@@ -118,13 +114,15 @@ main p {
     text-align: center;
     border: none;
     box-sizing: border-box;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    background-color: white;
-    padding: 24px;
+    box-shadow: 0px 18px 40px var(--shadow);
+    border-radius: var(--radius);
+    background-color: var(--card);
+    padding: 18px;
+    gap: 8px;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    -webkit-backface-visibility:hidden;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,99 +134,64 @@ main p {
 }
 
 p { margin: 0; }
-.word { font-size: 48px; }
-.meaning { font-size: 18px; color: #888; }
-.reading { font-size: 14px; color: #aaa; margin-top: 4px; }
+.word { 
+    font-size:56px;
+    margin:0;
+    text-align:center; 
+}
+.meaning { font-size: 18px; color: var(--muted); }
+.reading { font-size: 14px; color: var(--muted); margin-top: 4px; }
 
-.btn {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+.button{
+  border:0;
+  background:#111827;
+  color:#fff;
+  padding:10px 14px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  transition:opacity .12s ease, transform .12s ease;
+}
+.button:hover{ opacity:.96; transform:translateY(-2px) }
+.ans_btn{ background:#eef2ff; color:var(--muted); padding:8px 10px; border-radius:8px; box-shadow:none }
+.ans_btn#good_btn{ background:var(--good); color:#fff }
+.ans_btn#hard_btn{ background:var(--bad); color:#fff }
+.esc_btn{ position:absolute; top:12px; left:12px; background:transparent; color:var(--muted) }
+
+/* Bottom controls */
+.btn{ display:flex; gap:8px; justify-content:center; margin-top:8px }
+
+
+.progress{ 
+    margin-top:10px;
+}
+.progress_track{
+  background:#eef2ff;
+  height:8px;
+  border-radius:999px;
+  overflow:hidden;
+}
+.progress_fill{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  transition:width .35s ease;
+}
+.progress > div + #label_kanji,
+.progress > div + #label_hiragana,
+.progress > div + #label_katakana{
+  margin-top:6px;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.button {
-    background-color: #f0f4f8;
-    color: #4a5568;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-sizing: border-box;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-    transition: all 0.2s ease;
+.summary{
+  display:none;
+  background:var(--card);
+  padding:14px;
+  border-radius:10px;
+  box-shadow:0 12px 28px var(--shadow);
+  margin-top:12px;
 }
-
-.button:hover {
-    background-color: #e2e8f0; /* Slightly darker on hover */
-    transform: translateY(-1px);
-    box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
-}
-
-.button:active {
-    transform: translateY(0);
-    transform: scale(0.98); /* The "press" effect */
-}
-
-.esc_btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-
-    padding: 10px 15px;
-    z-index: 10;
-}
-
-.hint_btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    z-index: 10;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 600;
-}
-
-.ans_btn {
-    flex: 1;
-    gap: 5px;
-}
-
-.progress {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: rowS;
-}
-
-.progress_track {
-    width: 260px;
-    height: 8px;
-    background-color: #f0f4f8;
-    border-radius: 99px;
-}
-
-.progress_fill {
-    width: 0%;
-    height: 100%;
-    background-color: lightseagreen;
-    border-radius: 99px;
-    transition: width 0.3s ease;
-}
-
-.summary {
-    width: 260px;
-    height: 200px;
-    position: relative;
-    border: none;
-    box-sizing: border-box;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    background-color: white;
-    padding: 24px;
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
+.score{ font-size:20px; font-weight:700 }
+.accuracy{ color:var(--muted); font-size:13px }
