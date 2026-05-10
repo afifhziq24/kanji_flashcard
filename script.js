@@ -56,6 +56,7 @@ let katakanaDeck = [
 // ====================================
 
 let streak = Number(localStorage.getItem("streak")) || 0;
+const streakCount = document.querySelector(".streak_count");
 let correct = JSON.parse(localStorage.getItem("correct")) || 0;
 let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
 let dailyCorrect = JSON.parse(localStorage.getItem("dailyCorrect")) || 0;
@@ -71,16 +72,19 @@ const yesterdayString = yesterday.toISOString().split("T")[0];
 
 if (lastActive === dateString) {
     // same day — keep daily counters
+    streakCount.textContent = streak;
 } else if (lastActive === yesterdayString) {
     // new day after yesterday — reset daily counters and bump streak
     dailyCorrect = 0;
     dailyIncorrect = 0;
     streak++;
+    streakCount.textContent = streak;
 } else {
     // gap of more than one day — reset streak and daily counters
     streak = 0;
     dailyCorrect = 0;
     dailyIncorrect = 0;
+    streakCount.textContent = streak;
 }
 
 localStorage.setItem("lastActiveDate", dateString);
@@ -92,6 +96,7 @@ let progress = {
     katakana: 0
 }
 let savedData = localStorage.getItem("progress");
+let savedScore = localStorage.getItem("score");
 let loadedProgress;
 
 try {
@@ -111,7 +116,8 @@ try {
 }
 let currentIndex = localStorage.getItem("currentIndex") !== null ? JSON.parse(localStorage.getItem("currentIndex")) : 0;
 let currentActiveDeck = [];
-let score = 0;
+
+let score = JSON.parse(savedScore) || 0;
 const cache = {};
 
 // ====================================
@@ -412,3 +418,8 @@ prevBtn.addEventListener("click", function() {
 // ====================================
 
 updateProgress();
+// show saved score in header (if exists)
+const lastScoreDisplay = document.querySelector(".score_display");
+if (lastScoreDisplay) {
+    lastScoreDisplay.textContent = Number.isFinite(score) ? score + "%" : "0%";
+}

@@ -12,13 +12,24 @@
 </head>
 <body>
     <header>
-        <p>
-            漢字フラッシュカード
-        </p>
+        <div class="header_inner">
+            <h1>漢字フラッシュカード</h1>
+        </div>
     </header>
     <main>
-        <p>Choose a deck</p>
-        <div class="deck_card">
+        <div class="center_wrap">
+            <section class="dashboard_card">
+                <div class="dashboard_header">
+                    <div>
+                        <h2>漢字 study</h2>
+                        <p class="choose_deck_label">Choose a deck</p>
+                    </div>
+                    <div class="header_right">
+                        <div class="streak_badge"><span class="streak_count">0</span> day streak</div>
+                    </div>
+                </div>
+
+                <div class="deck_card">
             <button class="kanji_deck">
                 <h2>
                     漢字
@@ -51,8 +62,9 @@
                     <div id="label_katakana">0/46</div>
                 </div>
             </button>
-        </div>
-        <div class="daily_stat">
+            </div>
+
+            <div class="daily_stat">
             <div class="total_review">
                 <h2></h2>
                 <p>cards reviewed</p>
@@ -61,33 +73,41 @@
                 <p class="score_acc"></p>
                 <p>accuracy</p>
             </div>
-        </div>
-        <div class="container card_container">
-            <button class="button esc_btn">X</button>
-            <div class="progress">
-                <div class="progress_track">
-                    <div class="progress_fill" id="progress_fill"></div>
                 </div>
-                <div id="label">0/80</div>
-            </div>
-            <div class="card_inner" id="card_inner">
-                <div class="card front_card">
-                    <button class="button hint_btn">Show Hint</button>
-                    <div>
-                        <p class="word" id="word_display_front">...</p>
+            </section>
+        </div>
+
+        <div class="container card_container">
+            <div class="modal_panel">
+                <div class="card_top">
+                    <button class="button esc_btn">◀</button>
+                    <div class="progress">
+                        <div class="progress_track">
+                            <div class="progress_fill" id="progress_fill"></div>
+                        </div>
+                    </div>
+                    <div id="label">0/80</div>
+                </div>
+
+                <div class="card_inner" id="card_inner">
+                    <div class="card front_card">
+                        <button class="button hint_btn">show hint</button>
+                        <div>
+                            <p class="word" id="word_display_front">...</p>
+                        </div>
+                    </div>
+                    <div class="card back_card">
+                        <p class="word" id="word_display_back">...</p>
+                        <p class="meaning" id="meaning_display"></p>
+                        <p class="reading" id="reading_display"></p>
                     </div>
                 </div>
-                <div class="card back_card">
-                    <p class="word" id="word_display_back">...</p>
-                    <p class="meaning" id="meaning_display"></p>
-                    <p class="reading" id="reading_display"></p>
+
+                <div class="btn">
+                    <button class="button ans_btn" id="prev_btn">previous</button>
+                    <button class="button ans_btn" id="hard_btn">Don't know</button>
+                    <button class="button ans_btn" id="good_btn">Know it</button>
                 </div>
-            </div>
-            
-            <div class="btn">
-                <button class="button ans_btn" id="prev_btn">previous</button>
-                <button class="button ans_btn" id="hard_btn">hard</button>
-                <button class="button ans_btn" id="good_btn">good</button>
             </div>
         </div>
         <div class="container summary">
