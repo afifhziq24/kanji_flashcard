@@ -16,7 +16,7 @@ This small web app is a focused study tool to help you review basic Japanese cha
 
 ## Demo
 
-Card view (back revealed):
+Card view:
 
 ![Card screenshot](https://github.com/user-attachments/assets/2f7838b3-22be-4e39-ae71-878ab61d091d)
 
