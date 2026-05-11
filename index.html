@@ -11,11 +11,6 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="header_inner">
-            <h1>漢字フラッシュカード</h1>
-        </div>
-    </header>
     <main>
         <div class="center_wrap">
             <section class="dashboard_card">
@@ -64,16 +59,17 @@
             </button>
             </div>
 
+            <p>Today's stat</p>
             <div class="daily_stat">
-            <div class="total_review">
-                <h2></h2>
-                <p>cards reviewed</p>
-            </div>
-            <div class="daily_accuracy">
-                <p class="score_acc"></p>
-                <p>accuracy</p>
-            </div>
+                <div class="total_review">
+                    <p class="count"></p>
+                    <p>cards reviewed</p>
                 </div>
+                <div class="daily_accuracy">
+                    <p class="score_acc"></p>
+                    <p>accuracy</p>
+                </div>
+            </div>
             </section>
         </div>
 
@@ -111,9 +107,20 @@
             </div>
         </div>
         <div class="container summary">
-            <button class="button esc_btn">X</button>
-            <p class="score"></p>
-            <p class="accuracy">0/0</p>
+            <div class="modal_panel summary_panel">
+                <div class="summary_body">
+                    <h3 class="summary_title">Session summary</h3>
+                    <div class="summary_stats">
+                        <p class="score">0%</p>
+                        <p class="accuracy">0/0</p>
+                    </div>
+                    <p class="summary_message">Great job — review missed cards again to strengthen recall.</p>
+                    <div class="summary_actions">
+                        <button class="button action_btn replay_btn">Review again</button>
+                        <button class="button action_btn done_btn esc_btn">Done</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </body>

@@ -130,8 +130,39 @@ main p {
 .katakana_deck h2{ color:#6d28d9 }
 .katakana_deck #progress_fill_katakana{ background: linear-gradient(90deg,#c4b5fd,#a78bfa) }
 
+.daily_stat {
+  display:flex;
+  gap:12px;
+  margin-top:18px;
+}
 
+.daily_stat > .total_review,
+.daily_stat > .daily_accuracy {
+  flex:1 1 0;
+  min-width:0;
+  background: var(--card);
+  border-radius:12px;
+  padding:14px 16px;
+  box-shadow: 0 8px 20px var(--shadow);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
 
+.daily_stat .total_review .count,
+.daily_stat .daily_accuracy .score_acc{
+  font-size:28px;
+  font-weight:700;
+  margin:0 0 6px 0;
+  color:#0f172a;
+}
+
+.daily_stat .total_review p:not(.count),
+.daily_stat .daily_accuracy p:not(.score_acc){
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+}
 
 .container {
     position: fixed;
@@ -227,6 +258,31 @@ main p {
     flex-direction: column;
 }
 
+/* move the hint button to the card's top-right */
+.front_card .hint_btn{
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.95);
+  color: var(--muted);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+  font-weight:700;
+  z-index: 3;
+}
+
+.front_card .hint_btn{
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease;
+}
+
+.front_card .hint_btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+  background: #ffffff;
+  color: #0f172a;
+}
+
 .back_card {
     transform: rotateY(180deg);
 }
@@ -289,15 +345,36 @@ p { margin: 0; }
 }
 
 .summary{
-  display:none;
-  background:var(--card);
-  padding:14px;
-  border-radius:10px;
-  box-shadow:0 12px 28px var(--shadow);
-  margin-top:12px;
+  display:none; /* overlay container */
 }
-.score{ font-size:20px; font-weight:700 }
-.accuracy{ color:var(--muted); font-size:13px }
+
+/* summary panel inside overlay */
+.summary .summary_panel,
+.summary .modal_panel{
+  width: min(440px, 92vw);
+  background: var(--card);
+  border-radius:16px;
+  padding:18px 20px;
+  box-shadow: 0 22px 48px var(--shadow);
+  position:relative;
+  margin: 0 12px;
+}
+
+.summary .summary_body{ display:flex; flex-direction:column; align-items:center; gap:10px }
+.summary .summary_title{ margin:0; font-size:16px; color:var(--muted); }
+.summary .summary_stats{ display:flex; flex-direction:column; align-items:center; gap:4px }
+.summary .score{ font-size:44px; font-weight:800; margin:0; color:#0f172a }
+.summary .accuracy{ font-size:14px; color:var(--muted); margin:0 }
+.summary .summary_message{ margin:0; font-size:13px; color:var(--muted); text-align:center; }
+
+.summary .summary_actions{ display:flex; gap:12px; width:100%; margin-top:8px }
+.summary .action_btn{ flex:1 1 0; padding:10px 12px; border-radius:10px; font-weight:700; }
+.summary .replay_btn{ background:#eef2ff; color:var(--muted); border:0 }
+.summary .done_btn{ background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; border:0 }
+
+/* place the close button at top-right of the panel (only the direct child X button)
+  keep any inner buttons (like the `Done` action) inline beside Review again */
+.summary .summary_panel > .esc_btn{ position:absolute; top:12px; right:12px; background:transparent; color:var(--muted); padding:6px; }
 
 @media (max-width: 640px) {
   .deck_card { grid-template-columns: repeat(1,1fr); padding: 0 12px; }
@@ -305,4 +382,5 @@ p { margin: 0; }
   .word { font-size: 48px; }
   .button { padding:8px 10px; }
   .header_inner { padding: 0 6px; }
+  .daily_stat{ flex-direction:column; }
 }

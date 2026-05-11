@@ -61,6 +61,7 @@ let correct = JSON.parse(localStorage.getItem("correct")) || 0;
 let incorrect = JSON.parse(localStorage.getItem("incorrect")) || 0;
 let dailyCorrect = JSON.parse(localStorage.getItem("dailyCorrect")) || 0;
 let dailyIncorrect = JSON.parse(localStorage.getItem("dailyIncorrect")) || 0;
+let count = JSON.parse(localStorage.getItem("count")) || 0;
 
 const today = new Date();
 const dateString = today.toISOString().split("T")[0];
@@ -77,6 +78,7 @@ if (lastActive === dateString) {
     // new day after yesterday — reset daily counters and bump streak
     dailyCorrect = 0;
     dailyIncorrect = 0;
+    count = 0;
     streak++;
     streakCount.textContent = streak;
 } else {
@@ -84,6 +86,7 @@ if (lastActive === dateString) {
     streak = 0;
     dailyCorrect = 0;
     dailyIncorrect = 0;
+    count = 0;
     streakCount.textContent = streak;
 }
 
@@ -294,7 +297,10 @@ function updateProgress() {
     progressFillKatakana.style.width = ((loadedProgress.katakana/katakanaDeck.length) * 100) + "%";
 
     const scoreAcc = document.querySelector(".score_acc");
+    const totalReview = document.querySelector(".count");
+    let dailyReview = count;
     let dailyAcc = Math.round(dailyCorrect/(dailyCorrect+dailyIncorrect) * 100) || 0;
+    totalReview.textContent = dailyReview;
     scoreAcc.textContent = dailyAcc + "%";
 
     if (total > 0) {
@@ -396,20 +402,26 @@ escBtn.forEach(btn=> {
 hardBtn.addEventListener("click", function() {
     incorrect = incorrect + 1;
     dailyIncorrect++;
+    count++;
     localStorage.setItem("dailyIncorrect", JSON.stringify(dailyIncorrect));
     localStorage.setItem("incorrect", JSON.stringify(incorrect));
+    localStorage.setItem("count", JSON.stringify(count));
     updateBtn(1);
 });
 
 goodBtn.addEventListener("click", function() {
     correct = correct + 1;
     dailyCorrect++;
+    count++;
     localStorage.setItem("dailyCorrect", JSON.stringify(dailyCorrect));
     localStorage.setItem("correct", JSON.stringify(correct));
+    localStorage.setItem("count", JSON.stringify(count));
     updateBtn(1);
 });
 
 prevBtn.addEventListener("click", function() {
+    count--;
+    localStorage.setItem("count", JSON.stringify(count));
     updateBtn(-1);
 });
 
